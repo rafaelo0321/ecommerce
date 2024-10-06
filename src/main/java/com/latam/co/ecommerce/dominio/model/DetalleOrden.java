@@ -1,14 +1,29 @@
 package com.latam.co.ecommerce.dominio.model;
 
+import jakarta.persistence.*;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+@Entity
+@Table(name = "TB_DETALLE_ORDEN")
 public class DetalleOrden {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idDetalle;
     private String nombre;
-    private Double cantidad,precio,total;
+    private Double cantidad,precio;
+    private BigDecimal total;
+    @OneToOne
+    private Orden orden;
+    @ManyToOne(fetch = FetchType.EAGER,targetEntity = Producto.class)
+    private Producto producto;
+
 
     public DetalleOrden() {
     }
 
-    public DetalleOrden(String nombre, Double cantidad, Double precio, Double total) {
+    public DetalleOrden(String nombre, Double cantidad, Double precio, BigDecimal total) {
         this.nombre = nombre;
         this.cantidad = cantidad;
         this.precio = precio;
@@ -43,11 +58,11 @@ public class DetalleOrden {
         this.precio = precio;
     }
 
-    public Double getTotal() {
+    public BigDecimal getTotal() {
         return total;
     }
 
-    public void setTotal(Double total) {
+    public void setTotal(BigDecimal total) {
         this.total = total;
     }
 }

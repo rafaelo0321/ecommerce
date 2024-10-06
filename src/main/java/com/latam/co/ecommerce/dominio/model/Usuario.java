@@ -1,8 +1,20 @@
 package com.latam.co.ecommerce.dominio.model;
 
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
+@Entity
+@Table(name = "TB_USUARIO")
 public class Usuario {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUsuario;
     private String nombre, username,email,direccion,telefono,tipo,password;
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "usuario",targetEntity = Producto.class)
+    private List<Producto> productos = new ArrayList<>();
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "usuario",targetEntity = Orden.class)
+    private List<Orden> ordenes = new ArrayList<>();
 
     public Usuario() {
     }
@@ -75,5 +87,21 @@ public class Usuario {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Producto> getProductos() {
+        return productos;
+    }
+
+    public void setProductos(List<Producto> productos) {
+        this.productos = productos;
+    }
+
+    public List<Orden> getOrdenes() {
+        return ordenes;
+    }
+
+    public void setOrdenes(List<Orden> ordenes) {
+        this.ordenes = ordenes;
     }
 }
